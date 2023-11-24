@@ -1,0 +1,52 @@
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Put,
+  Param,
+  Delete,
+  Query,
+} from '@nestjs/common';
+import { Ok } from '../responses/success.types';
+import { Body{{titleCase name}}Dto } from 'src/application/DTOs/{{kebabCase name}}/body-{{kebabCase name}}.dto';
+import { {{titleCase name}}Service } from 'src/application/services/{{kebabCase name}}.service';
+
+@Controller('/{{kebabCase name}}')
+export class {{titleCase name}}Controller {
+  constructor( 
+    private readonly _{{camelCase name}}Service: {{titleCase name}}Service
+  ) {}
+  
+  @Get()
+  public async findAll() {
+    const {{camelCase name}} = this._{{camelCase name}}Service.findAll();
+    return Ok({{camelCase name}});
+  }
+  @Get()
+  public async findByPrimary(@Param('id') id: number) {
+    const {{camelCase name}} = this._{{camelCase name}}Service.findByPrimary(id);
+    return Ok({{camelCase name}});
+  }
+  @Post()
+  public async add(
+    @Body() body: Body{{titleCase name}}Dto,
+    @Param('id') id: number) {
+    const {{camelCase name}} = this._{{camelCase name}}Service.createOrUpdate(body, id);
+    return {{camelCase name}}
+  }
+  @Put()
+  public async update(@Body() body: Body{{titleCase name}}Dto, id: number) {
+    const {{camelCase name}} = this._{{camelCase name}}Service.createOrUpdate(body, id);
+    return Ok({{camelCase name}});
+  }
+  @Delete()
+  public async delete(@Param('id') id: number) {
+    const {{camelCase name}} = this._{{camelCase name}}Service.delete(
+      id,
+    );
+    return Ok({{camelCase name}});
+  }
+}
+
+ 
