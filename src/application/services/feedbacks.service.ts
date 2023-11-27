@@ -25,7 +25,7 @@ export class FeedbacksService {
   }
 
   public async createOrUpdate(
-    body: BodyFeedbacksDto,
+    body: Partial<BodyFeedbacksDto>,
     id: number,
   ) {
     try {

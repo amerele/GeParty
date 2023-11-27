@@ -14,6 +14,7 @@
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
+    "knex": "knex --knexfile ./src/infrastructure/knex config/knexfile.js",
     "test:watch": "jest --watch",
     "generate": "yarn plop --plopfile generators/plopfile.cjs",
     "test:cov": "jest --coverage",
@@ -31,7 +32,8 @@
     "nest-knexjs": "^0.0.15",
     "pg": "^8.10.0",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.2.0"
+    "rxjs": "^7.2.0",
+    "sqlite3": "^5.1.6"
   },
   "devDependencies": {
     "@nestjs/cli": "^9.0.0",

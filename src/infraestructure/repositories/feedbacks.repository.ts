@@ -8,7 +8,7 @@ export class FeedbacksRepository extends BaseKnexRepository {
   public async findAll(): Promise<Feedbacks[]> {
     const knexInstance = await this.getKnexInstance();
   
-    const feedbacks = await knexInstance('TABELA.feedbacks').where('').select('*');
+    const feedbacks = await knexInstance('geparty.feedbacks').where('').select('*');
   
     await this.destroyConnection(knexInstance);
     return feedbacks;
@@ -18,7 +18,7 @@ export class FeedbacksRepository extends BaseKnexRepository {
   public async findByPrimary(id: number): Promise<Feedbacks[]> {
     const knexInstance = await this.getKnexInstance();
 
-    const feedbacks = await knexInstance('TABELA.feedbacks')
+    const feedbacks = await knexInstance('geparty.feedbacks')
       .where({ id })
       .select('*');
 
@@ -27,12 +27,12 @@ export class FeedbacksRepository extends BaseKnexRepository {
   }
 
   public async createOrUpdate(
-    data: BodyFeedbacksDto,
+    data: Partial<BodyFeedbacksDto>,
     id: number,
   ): Promise<Feedbacks[]> {
     const knexInstance = await this.getKnexInstance();
 
-    const feedbacks = await knexInstance('TABELA.feedbacks')
+    const feedbacks = await knexInstance('geparty.feedbacks')
       .upsert({ data, id })
       .returning('*');
 
@@ -43,7 +43,7 @@ export class FeedbacksRepository extends BaseKnexRepository {
   public async delete(id: number): Promise<void> {
     const knexInstance = await this.getKnexInstance();
 
-    await knexInstance('TABELA.feedbacks').where({ id }).del();
+    await knexInstance('geparty.feedbacks').where({ id }).del();
 
     await this.destroyConnection(knexInstance);
   }

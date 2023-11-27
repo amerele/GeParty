@@ -8,7 +8,7 @@ export class ProductsRepository extends BaseKnexRepository {
   public async findAll(): Promise<Products[]> {
     const knexInstance = await this.getKnexInstance();
 
-    const products = await knexInstance('TABELA.products').where('').select('*');
+    const products = await knexInstance('geparty.products').where('').select('*');
 
     await this.destroyConnection(knexInstance);
     return products;
@@ -17,7 +17,7 @@ export class ProductsRepository extends BaseKnexRepository {
   public async findByPrimary(id: number): Promise<Products[]> {
     const knexInstance = await this.getKnexInstance();
 
-    const products = await knexInstance('TABELA.products')
+    const products = await knexInstance('geparty.products')
       .where({ id })
       .select('*');
 
@@ -26,12 +26,12 @@ export class ProductsRepository extends BaseKnexRepository {
   }
 
   public async createOrUpdate(
-    data: BodyProductsDto,
+    data: Partial<BodyProductsDto>,
     id: number,
   ): Promise<Products[]> {
     const knexInstance = await this.getKnexInstance();
 
-    const products = await knexInstance('TABELA.products')
+    const products = await knexInstance('geparty.products')
       .upsert({ data, id })
       .returning('*');
 
@@ -42,7 +42,7 @@ export class ProductsRepository extends BaseKnexRepository {
   public async delete(id: number): Promise<void> {
     const knexInstance = await this.getKnexInstance();
 
-    await knexInstance('TABELA.products').where({ id }).del();
+    await knexInstance('geparty.products').where({ id }).del();
 
     await this.destroyConnection(knexInstance);
   }

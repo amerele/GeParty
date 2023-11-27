@@ -25,7 +25,7 @@ export class ProductsService {
   }
 
   public async createOrUpdate(
-    body: BodyProductsDto,
+    body: Partial<BodyProductsDto>,
     id: number,
   ) {
     try {

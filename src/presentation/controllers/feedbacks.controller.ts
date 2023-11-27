@@ -36,7 +36,7 @@ export class FeedbacksController {
     return feedbacks
   }
   @Put()
-  public async update(@Body() body: BodyFeedbacksDto, id: number) {
+  public async update(@Body() body: Partial<BodyFeedbacksDto> , id: number) {
     const feedbacks = this._feedbacksService.createOrUpdate(body, id);
     return Ok(feedbacks);
   }

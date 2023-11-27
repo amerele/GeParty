@@ -23,7 +23,7 @@ export class UsersController {
     const users = this._usersService.findAll();
     return Ok(users);
   }
-  @Get()
+  @Get('/:id')
   public async findByPrimary(@Param('id') id: number) {
     const users = this._usersService.findByPrimary(id);
     return Ok(users);

@@ -36,7 +36,7 @@ export class ProductsController {
     return products
   }
   @Put()
-  public async update(@Body() body: BodyProductsDto, id: number) {
+  public async update(@Body() body: Partial<BodyProductsDto>, id: number) {
     const products = this._productsService.createOrUpdate(body, id);
     return Ok(products);
   }
