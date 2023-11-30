@@ -5,47 +5,25 @@ import { BodyFeedbacksDto } from 'src/application/DTOs/feedbacks/Body-feedbacks.
 
 @Injectable()
 export class FeedbacksRepository extends BaseKnexRepository {
-  public async findAll(): Promise<Feedbacks[]> {
-    const knexInstance = await this.getKnexInstance();
   
-    const feedbacks = await knexInstance('geparty.feedbacks').where('').select('*');
-  
-    await this.destroyConnection(knexInstance);
-    return feedbacks;
-  }
-  
-
-  public async findByPrimary(id: number): Promise<Feedbacks[]> {
+  public async findFeedbacks(product_id: number): Promise<Feedbacks[]> {
     const knexInstance = await this.getKnexInstance();
 
     const feedbacks = await knexInstance('geparty.feedbacks')
-      .where({ id })
-      .select('*');
+      .where({ product_id })
+      .select("comment", "upvotes", "downvotes" );
 
     await this.destroyConnection(knexInstance);
     return feedbacks;
   }
 
-  public async createOrUpdate(
-    data: Partial<BodyFeedbacksDto>,
-    id: number,
-  ): Promise<Feedbacks[]> {
+  public async react(product_id: number, reaction: boolean): Promise<void> {
     const knexInstance = await this.getKnexInstance();
 
-    const feedbacks = await knexInstance('geparty.feedbacks')
-      .upsert({ data, id })
-      .returning('*');
+    await knexInstance('geparty.feedbacks').where({ product_id }).select('upvotes', 'downvotes');
 
     await this.destroyConnection(knexInstance);
-    return feedbacks;
-  }
-
-  public async delete(id: number): Promise<void> {
-    const knexInstance = await this.getKnexInstance();
-
-    await knexInstance('geparty.feedbacks').where({ id }).del();
-
-    await this.destroyConnection(knexInstance);
+    console.log(reaction)
   }
 }
  

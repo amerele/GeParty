@@ -6,42 +6,18 @@ import { BodyFeedbacksDto } from '../DTOs/feedbacks/body-feedbacks.dto';
 export class FeedbacksService {
   constructor(private readonly _feedbacksRepository: FeedbacksRepository) {}
 
-  public async findAll() {
+  public async findFeedbacks(product_id: number) {
     try {
-      return this._feedbacksRepository.findAll();
+      return this._feedbacksRepository.findFeedbacks(product_id);
     } catch (error) {
       console.log(error);
       throw error;
     }
   }
 
-  public async findByPrimary(id: number) {
+  public async react(product_id: number, reaction: boolean) {
     try {
-      return this._feedbacksRepository.findByPrimary(id);
-    } catch (error) {
-      console.log(error);
-      throw error;
-    }
-  }
-
-  public async createOrUpdate(
-    body: Partial<BodyFeedbacksDto>,
-    id: number,
-  ) {
-    try {
-      return this._feedbacksRepository.createOrUpdate(
-        body,
-        id,
-      );
-    } catch (error) {
-      console.log(error);
-      throw error;
-    }
-  }
-
-  public async delete(id: number) {
-    try {
-      return this._feedbacksRepository.delete(id);
+      return this._feedbacksRepository.react(product_id, reaction);
     } catch (error) {
       console.log(error);
       throw error;
