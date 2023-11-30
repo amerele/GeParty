@@ -13,7 +13,6 @@ export class ProductsRepository extends BaseKnexRepository {
     .from('products');
 
     await this.destroyConnection(knexInstance);
-    console.log(products)
     return products;
   }
 

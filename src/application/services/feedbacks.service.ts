@@ -23,4 +23,12 @@ export class FeedbacksService {
       throw error;
     }
   }
+  public async unreact(product_id: number, reaction: boolean) {
+    try {
+      return this._feedbacksRepository.unreact(product_id, reaction);
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
 }

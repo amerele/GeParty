@@ -5,45 +5,61 @@ import { BodyFeedbacksDto } from 'src/application/DTOs/feedbacks/Body-feedbacks.
 
 @Injectable()
 export class FeedbacksRepository extends BaseKnexRepository {
-  
-  public async findFeedbacks(product_id: number): Promise<Feedbacks[]> {
+  public async findFeedbacks(product_id: number): Promise<any> {
     const knexInstance = await this.getKnexInstance();
 
-    const feedbacks = await knexInstance('geparty.feedbacks')
+    const feedbacks = await knexInstance
+      .from('feedbacks')
+      .select('comment','upvotes', 'downvotes')
       .where({ product_id })
-      .select("comment", "upvotes", "downvotes" );
 
+
+      const response = Object.keys(feedbacks[0]).reduce((acc, key) => {
+        const value = feedbacks[0][key];
+        if (value !== null && value !== 0) {
+          acc[key] = value;
+        }
+        return acc;
+      }, {});
     await this.destroyConnection(knexInstance);
-    return feedbacks;
+    return response;
   }
 
   public async react(product_id: number, reaction: boolean): Promise<void> {
     const knexInstance = await this.getKnexInstance();
 
-    await knexInstance('geparty.feedbacks').where({ product_id }).select('upvotes', 'downvotes');
-
-    await this.destroyConnection(knexInstance);
-
-  }
-  public async insertDefaultValues(product_id: number,): Promise<void> {
-    const knexInstance = await this.getKnexInstance();
-
     await knexInstance
-    .from('feedbacks')
-    .insert({product_id})
+      .from('feedbacks')
+      .where({ product_id })
+      .increment(reaction ? 'upvotes' : 'downvotes', 1)
+      .returning('*');
 
     await this.destroyConnection(knexInstance);
   }
-  
-  public async delete(product_id: number,): Promise<void> {
+  public async unreact(product_id: number, reaction: boolean): Promise<void> {
     const knexInstance = await this.getKnexInstance();
 
     await knexInstance
-    .from('feedbacks')
-    .where({product_id})
-    .del()
+      .from('feedbacks')
+      .where({ product_id })
+      .decrement(reaction ? 'upvotes' : 'downvotes', 1)
+      .returning('*');
+
+    await this.destroyConnection(knexInstance);
+  }
+  public async insertDefaultValues(product_id: number): Promise<void> {
+    const knexInstance = await this.getKnexInstance();
+
+    await knexInstance.from('feedbacks').insert({ product_id });
+
+    await this.destroyConnection(knexInstance);
+  }
+
+  public async delete(product_id: number): Promise<void> {
+    const knexInstance = await this.getKnexInstance();
+
+    await knexInstance.from('feedbacks').where({ product_id }).del();
 
     await this.destroyConnection(knexInstance);
   }
 }
- 
