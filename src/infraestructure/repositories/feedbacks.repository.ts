@@ -16,9 +16,7 @@ export class FeedbacksRepository extends BaseKnexRepository {
 
       const response = Object.keys(feedbacks[0]).reduce((acc, key) => {
         const value = feedbacks[0][key];
-        if (value !== null && value !== 0) {
-          acc[key] = value;
-        }
+        if (value)  acc[key] = value;
         return acc;
       }, {});
     await this.destroyConnection(knexInstance);
