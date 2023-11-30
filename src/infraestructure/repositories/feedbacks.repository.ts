@@ -31,7 +31,7 @@ export class FeedbacksRepository extends BaseKnexRepository {
     await knexInstance
       .from('feedbacks')
       .where({ product_id })
-      .increment(reaction ? 'upvotes' : 'downvotes', 1)
+      .increment(reaction === true ? 'upvotes' : 'downvotes', 1)
       .returning('*');
 
     await this.destroyConnection(knexInstance);
@@ -42,7 +42,7 @@ export class FeedbacksRepository extends BaseKnexRepository {
     await knexInstance
       .from('feedbacks')
       .where({ product_id })
-      .decrement(reaction ? 'upvotes' : 'downvotes', 1)
+      .decrement(reaction === true ? 'upvotes' : 'downvotes', 1)
       .returning('*');
 
     await this.destroyConnection(knexInstance);

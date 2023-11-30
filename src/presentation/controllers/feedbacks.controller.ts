@@ -26,8 +26,8 @@ export class FeedbacksController {
     @Param('product_id') product_id: number,
     @Param('reaction') reaction: boolean,
   ) {
-    const feedbacks = this._feedbacksService.react(product_id, reaction);
-    return feedbacks;
+    const feedbacks = await this._feedbacksService.react(product_id, reaction);
+    return Ok(feedbacks);
   }
   @Patch('/:product_id/:reaction')
   public async unreact(
@@ -35,6 +35,6 @@ export class FeedbacksController {
     @Param('reaction') reaction: boolean,
   ) {
     const feedbacks = this._feedbacksService.unreact(product_id, reaction);
-    return feedbacks;
+    return Ok(feedbacks);
   }
 }
