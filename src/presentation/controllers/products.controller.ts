@@ -23,7 +23,7 @@ export class ProductsController {
     const products = this._productsService.findAll();
     return Ok(products);
   }
-  @Get()
+  @Get(':id')
   public async findByPrimary(@Param('id') id: number) {
     const products = this._productsService.findByPrimary(id);
     return Ok(products);

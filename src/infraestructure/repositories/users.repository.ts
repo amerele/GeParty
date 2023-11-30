@@ -8,7 +8,7 @@ export class UsersRepository extends BaseKnexRepository {
   public async findAll(): Promise<Users[]> {
     const knexInstance = await this.getKnexInstance();
 
-    const users = await knexInstance('geparty.users').where('').select('*');
+    const users = await knexInstance('geparty.users').select('*');
 
     await this.destroyConnection(knexInstance);
     return users;

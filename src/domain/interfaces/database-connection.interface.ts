@@ -5,4 +5,5 @@ export interface IDatabaseConnection {
   user: string;
   password: string;
   database: string;
+  sslmode?: string; 
 }

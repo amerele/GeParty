@@ -20,25 +20,7 @@ const runMigrationDir = join(
 );
 
 export const getKnexInstance = async (connection: IDatabaseConnection) => {
-  if (process.env.NODE_ENV !== 'LOCAL') console.log(connection);
-
-  const knex =
-    process.env.NODE_ENV == 'test'
-      ? Knex({
-          client: process.env.TEST_DB_CLIENT,
-          connection: {
-            host: process.env.TEST_DB_HOST,
-            port: Number(process.env.TEST_DB_PORT),
-            user: process.env.TEST_DB_USER,
-            password: process.env.TEST_DB_PASSWORD,
-            database: process.env.TEST_DB_DATABASE,
-          },
-          migrations: {
-            directory: runMigrationDir,
-            extension: 'js',
-          },
-        })
-      : Knex({
+  const knex = Knex({
           client: 'pg',
           connection: {
             host:
@@ -49,6 +31,7 @@ export const getKnexInstance = async (connection: IDatabaseConnection) => {
             user: connection.user,
             password: connection.password,
             database: connection.database,
+            ssl: { rejectUnauthorized: false },
           },
           migrations: {
             directory: runMigrationDir,

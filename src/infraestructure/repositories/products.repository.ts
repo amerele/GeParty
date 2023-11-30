@@ -8,7 +8,9 @@ export class ProductsRepository extends BaseKnexRepository {
   public async findAll(): Promise<Products[]> {
     const knexInstance = await this.getKnexInstance();
 
-    const products = await knexInstance('geparty.products').where('').select('*');
+    const products = await knexInstance
+    .select('*')
+    .from('products');
 
     await this.destroyConnection(knexInstance);
     return products;
