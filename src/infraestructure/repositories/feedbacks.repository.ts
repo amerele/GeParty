@@ -23,7 +23,27 @@ export class FeedbacksRepository extends BaseKnexRepository {
     await knexInstance('geparty.feedbacks').where({ product_id }).select('upvotes', 'downvotes');
 
     await this.destroyConnection(knexInstance);
-    console.log(reaction)
+
+  }
+  public async insertDefaultValues(product_id: number,): Promise<void> {
+    const knexInstance = await this.getKnexInstance();
+
+    await knexInstance
+    .from('feedbacks')
+    .insert({product_id})
+
+    await this.destroyConnection(knexInstance);
+  }
+  
+  public async delete(product_id: number,): Promise<void> {
+    const knexInstance = await this.getKnexInstance();
+
+    await knexInstance
+    .from('feedbacks')
+    .where({product_id})
+    .del()
+
+    await this.destroyConnection(knexInstance);
   }
 }
  

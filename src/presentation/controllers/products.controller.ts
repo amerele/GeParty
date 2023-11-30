@@ -8,7 +8,7 @@ import {
   Delete,
   Query,
 } from '@nestjs/common';
-import { Ok } from '../responses/success.types';
+import { Created, Ok } from '../responses/success.types';
 import { BodyProductsDto } from 'src/application/DTOs/products/body-products.dto';
 import { ProductsService } from 'src/application/services/products.service';
 
@@ -20,29 +20,28 @@ export class ProductsController {
   
   @Get()
   public async findAll() {
-    const products = this._productsService.findAll();
+    const products = await this._productsService.findAll()
     return Ok(products);
   }
   @Get(':id')
   public async findByPrimary(@Param('id') id: number) {
-    const products = this._productsService.findByPrimary(id);
+    const products = await this._productsService.findByPrimary(id);
     return Ok(products);
   }
   @Post()
   public async add(
-    @Body() body: BodyProductsDto,
-    @Param('id') id: number) {
-    const products = this._productsService.createOrUpdate(body, id);
-    return products
+    @Body() body: BodyProductsDto) {
+    const products = await this._productsService.create(body);
+    return Created(products)
   }
   @Put()
   public async update(@Body() body: Partial<BodyProductsDto>, id: number) {
-    const products = this._productsService.createOrUpdate(body, id);
-    return Ok(products);
+    //const products = this._productsService.update(body, id);
+    //return Ok(products);
   }
   @Delete()
   public async delete(@Param('id') id: number) {
-    const products = this._productsService.delete(
+    const products = await this._productsService.delete(
       id,
     );
     return Ok(products);
